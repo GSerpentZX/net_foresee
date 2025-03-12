@@ -13,45 +13,42 @@
     <!-- Header -->
     <div class="bg-primary text-white text-center py-3 position-fixed w-100 top-0 d-flex align-items-center">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="ms-3" style="height: 50px;">
-        <h2 class="flex-grow-1 m-0"></h2>
+        <h2 class="flex-grow-1 m-0">NetForesee</h2>
     </div>
 
     <!-- Main Content -->
-    <div class="container d-flex justify-content-center align-items-center flex-grow-1">
+    <div class="container d-flex justify-content-center align-items-center flex-grow-1" style="margin-top: 80px;">
         <div class="col-md-8 col-lg-6">
             <div class="card p-4 shadow">
                 <div class="card-header text-white text-center" style="background-color: #02084b;">
                     <h3>Form Input Komentar</h3>
                 </div>
                 <div class="card-body">
-                    @if (session('hasil'))
-                        <div class="alert alert-info text-center">
-                            <strong>Hasil Klasifikasi:</strong>
-                            <span class="fw-bold">
-                                @if (session('hasil') == 'Positif')
-                                    <span class="text-success">Positif</span>
-                                @elseif(session('hasil') == 'Negatif')
-                                    <span class="text-danger">Negatif</span>
-                                @else
-                                    <span class="text-warning">{{ session('hasil') }}</span>
-                                @endif
-                            </span>
+
+                    @if (session('error'))
+                        <div class="alert alert-warning text-center">
+                            {{ session('error') }}
                         </div>
                     @endif
-                    <form method="POST" action="{{ route('submit.form') }}">
+
+                    @if (isset($result))
+                        <div class="alert text-center {{ $result === 'POSITIVE' ? 'alert-success' : 'alert-danger' }}">
+                            Hasil Klasifikasi: {{ $result === 'POSITIVE' ? 'Positif 😊' : 'Negatif 😢' }}
+                        </div>
+                    @endif
+
+                    <form action="{{ url('/analyze') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="teks" class="form-label">Masukkan Teks:</label>
-                            <input type="text" class="form-control @error('teks') is-invalid @enderror"
-                                id="teks" name="teks" value="{{ old('teks') }}">
-                            @error('teks')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <input type="text" class="form-control" id="teks" name="text"
+                                value="{{ old('text') }}" required>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary w-100 fw-bold">Cek</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
