@@ -28,9 +28,9 @@
                         <div class="alert alert-info text-center">
                             <strong>Hasil Klasifikasi:</strong>
                             <span class="fw-bold">
-                                @if (session('hasil') == 'positive')
+                                @if (session('hasil') == 'Positif')
                                     <span class="text-success">Positif</span>
-                                @elseif(session('hasil') == 'negative')
+                                @elseif(session('hasil') == 'Negatif')
                                     <span class="text-danger">Negatif</span>
                                 @else
                                     <span class="text-warning">{{ session('hasil') }}</span>
