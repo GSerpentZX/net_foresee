@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Facades\Log;
 
 class SentimentController extends Controller
 {
@@ -37,6 +38,7 @@ class SentimentController extends Controller
 
         // Cek apakah proses berhasil
         if (!$process->isSuccessful()) {
+            // Return error output directly to the view
             return back()->with('error', 'Analisis gagal: ' . $process->getErrorOutput());
         }
 

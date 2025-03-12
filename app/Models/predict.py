@@ -1,5 +1,5 @@
 import sys
-import joblib
+import pickle
 import os
 
 # Path model
@@ -12,8 +12,13 @@ print(f"Loading model from: {model_path}")
 print(f"Loading vectorizer from: {vectorizer_path}")
 
 try:
-    model = joblib.load(model_path)
-    vectorizer = joblib.load(vectorizer_path)
+    with open(model_path, 'rb') as model_file:
+        model = pickle.load(model_file)
+    with open(vectorizer_path, 'rb') as vectorizer_file:
+        vectorizer = pickle.load(vectorizer_file)
+except OSError as e:
+    print(f"OSError: {e}")
+    sys.exit(1)
 except Exception as e:
     print(f"Error loading model: {str(e)}")
     sys.exit(1)
