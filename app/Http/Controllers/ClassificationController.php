@@ -32,6 +32,8 @@ class ClassificationController extends Controller
                 $hasil = 'Positif';
             } elseif ($result === 'NEGATIVE') {
                 $hasil = 'Negatif';
+            } else {
+                $hasil = 'Hasil tidak diketahui';
             }
         }
 
