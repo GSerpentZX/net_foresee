@@ -24,16 +24,16 @@ class SentimentController extends Controller
         }
 
         // Path ke script Python
-        $pythonScript = base_path('app/Models/predict.py');
-        $pythonPath = 'C:\\Users\\Ilman\\AppData\\Local\\Programs\\Python\\Python313\\python.exe';
+        $scriptPath = app_path('Models/predict.py');
+        //$pythonPath = 'C:\\Users\\Ilman\\AppData\\Local\\Programs\\Python\\Python313\\python.exe';
 
         // Pastikan file predict.py ada
-        if (!file_exists($pythonScript)) {
+        if (!file_exists($scriptPath)) {
             return back()->with('error', 'File predict.py tidak ditemukan.');
         }
 
         // Jalankan Python
-        $process = new Process([$pythonPath, $pythonScript, $text]);
+        $process = new Process(['python', $scriptPath, $text]);
         $process->run();
 
         // Cek apakah proses berhasil
@@ -44,6 +44,8 @@ class SentimentController extends Controller
 
         // Ambil hasil prediksi dari Python
         $result = trim($process->getOutput());
+
+        //Log::info("Python Output: " . $result);
 
         // Kembalikan ke halaman dengan hasil
         return view('sentiment', compact('text', 'result'));
